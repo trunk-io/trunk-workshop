@@ -25,7 +25,11 @@
 #
 set -euo pipefail
 
-: "${TRUNK_API_TOKEN:?set TRUNK_API_TOKEN}"
+# In State 0 (no Trunk secrets yet) this is expected — log and skip so CI stays green.
+if [[ -z "${TRUNK_API_TOKEN:-}" ]]; then
+  echo "TRUNK_API_TOKEN is not set — skipping impacted-targets upload. CI stays green; add the secret to enable graph mode."
+  exit 0
+fi
 : "${GITHUB_REPOSITORY:?set GITHUB_REPOSITORY (owner/repo)}"
 : "${PR_NUMBER:?set PR_NUMBER}"
 : "${PR_SHA:?set PR_SHA}"
