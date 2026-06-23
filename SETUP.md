@@ -25,7 +25,18 @@ is not yet configured. The steps below are **human-only** — they happen in the
 ## Merge Queue
 
 5. In **Trunk → Merge Queue**, create a queue for the repo targeting `main`.
-6. Set **branch protection** on `main` so merges go through the queue.
+6. Set **branch protection** on `main` so merges go through the queue. Once the Trunk GitHub App is
+   installed (step 2), run the helper script instead of clicking through the rulesets UI:
+
+   ```bash
+   scripts/setup-merge-queue.sh            # current repo, or pass owner/repo
+   ```
+
+   It enables squash merges and creates the two rulesets Trunk recommends — `merge-queue-branch-update`
+   (Restrict updates; the `trunk-io` app bypasses as **Exempt** so the queue can push merges) and
+   `merge-queue-mergeability` (require a PR + the `Unit Tests`/`E2E Tests` checks; Trunk intentionally
+   not on its bypass). It's idempotent — re-run it to update the rulesets. Needs `gh` with admin rights
+   on the repo.
 7. For the batching segment: enable **Batching** (target size **4**, max wait **5 min** — the
    defaults).
 
