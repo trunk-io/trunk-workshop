@@ -61,11 +61,20 @@ earlier ones, and one ordering gotcha will bite you otherwise (see the callout).
    https://docs.trunk.io/setup-and-administration/github-app-permissions
 3. In **app.trunk.io → Settings → Organization → General**, copy the **org slug** and create an
    **organization API token**.
-4. **Add repo secrets** (Settings → Secrets and variables → Actions → Secrets):
+4. **Add BOTH repo secrets** (Settings → Secrets and variables → Actions → Secrets), or via `gh`:
+   ```bash
+   gh secret set TRUNK_ORG_URL_SLUG --repo <you>/trunk-workshop --body "<your-org-slug>"
+   gh secret set TRUNK_API_TOKEN    --repo <you>/trunk-workshop --body "<your-org-api-token>"
+   ```
    - `TRUNK_ORG_URL_SLUG` — the org slug from step 3
    - `TRUNK_API_TOKEN` — the org API token from step 3
 
    This activates the (previously inert) upload steps in the CI workflows.
+
+   > **Gotcha — set BOTH.** The upload step only gates on `TRUNK_API_TOKEN`, so if you set the token
+   > but forget the slug, the step runs and **fails** with `Missing organization url slug` — but
+   > because the upload step is `continue-on-error: true`, CI still shows **green** and **nothing is
+   > uploaded to Trunk**. If your Test Runs / Uploads tab is empty, check that *both* secrets exist.
 
 ## Merge Queue
 
