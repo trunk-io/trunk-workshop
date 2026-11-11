@@ -103,9 +103,10 @@ in graph mode. So you can:
 
 - `.github/workflows/unit-tests.yml` / `e2e-tests.yml` — run on push + PR, execute the suites with
   `continue-on-error: true` (so quarantine can keep CI green), then upload to Trunk via
-  `trunk-io/analytics-uploader@v1`. The upload step is guarded so it no-ops until the Trunk secrets
-  exist (the token is lifted into a job `env` var and the step's `if` checks it), so CI is green
-  before setup and active once the secrets are added.
+  `trunk-io/analytics-uploader@v2` into the test collection named by `TRUNK_TEST_COLLECTION_ID`.
+  The upload step is guarded so it no-ops until the Trunk secrets exist (the token is lifted into a
+  job `env` var and the step's `if` checks it), so CI is green before setup and active once the
+  secrets are added.
 - `.github/workflows/impacted-targets.yml` — runs on PR; uploads the PR's impacted targets for graph
   mode (above). Same `TRUNK_API_TOKEN` guard, so it's inert until secrets exist.
 - `.github/workflows/generate-traffic.yml` — scheduled + manual; runs `open-prs --queue`. Gated on
