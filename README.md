@@ -103,7 +103,7 @@ in graph mode. So you can:
 
 - `.github/workflows/unit-tests.yml` / `e2e-tests.yml` — run on push + PR, execute the suites with
   `continue-on-error: true` (so quarantine can keep CI green), then upload to Trunk via
-  `trunk-io/analytics-uploader@v2` into the test collection named by `TRUNK_TEST_COLLECTION_ID`.
+  `trunk-io/analytics-uploader@main` into the test collection named by `TRUNK_TEST_COLLECTION_ID`.
   The upload step is guarded so it no-ops until the Trunk secrets exist (the token is lifted into a
   job `env` var and the step's `if` checks it), so CI is green before setup and active once the
   secrets are added.
